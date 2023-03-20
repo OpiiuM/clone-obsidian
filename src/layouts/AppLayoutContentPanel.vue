@@ -1,17 +1,27 @@
 <script lang="ts" setup>
+import { useNotesStore } from '@/stores/notes';
+
 import ArrowLeftIcon from '@/assets/icons/arrow-left.svg';
 import ArrowRightIcon from '@/assets/icons/arrow-right.svg';
 import CloseIcon from '@/assets/icons/close.svg';
+
+const notesStore = useNotesStore(); 
 </script>
 
 <template>
 	<div class="content-panel">
 		<div class="content-panel__actions">
 			<div class="content-panel__actions-item">
-				<ArrowLeftIcon class="icon icon--button" />
+				<ArrowLeftIcon
+					class="content-panel__actions-icon icon icon--button"
+					@click="notesStore.toPrevNote"
+				/>
 			</div>
 			<div class="content-panel__actions-item">
-				<ArrowRightIcon class="icon icon--button" />
+				<ArrowRightIcon
+					class="content-panel__actions-icon icon icon--button"
+					@click="notesStore.toNextNote"
+				/>
 			</div>
 		</div>
 
@@ -21,7 +31,10 @@ import CloseIcon from '@/assets/icons/close.svg';
 
 		<div class="content-panel__actions">
 			<div class="content-panel__actions-item">
-				<CloseIcon class="icon icon--button" />
+				<CloseIcon
+					class="content-panel__actions-icon icon icon--button"
+					@click="notesStore.closeCurrentNote"
+				/>
 			</div>
 		</div>
 	</div>
@@ -35,9 +48,19 @@ import CloseIcon from '@/assets/icons/close.svg';
 
 	&__actions {
 		display: flex;
-	}
 
-	&__actions-item {}
+		&-item {}
+
+		&-icon {
+			transition: color $transition-duration $transition-function;
+
+			color: $dove-gray;
+
+			&:hover {
+				color: $white;
+			}
+		}
+	}
 
 	&__name {}
 }
