@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import NoteTag from '@/modules/note/NoteTag.vue';
 </script>
 
 <template>
@@ -9,7 +10,15 @@
             </h2>
 
             <ul class="note-view__tags">
-                <li class="note-view__tags-item"></li>
+                <li class="note-view__tags-item">
+                    <NoteTag>#Vue</NoteTag>
+                </li>
+                <li class="note-view__tags-item">
+                    <NoteTag>#Vue/Pinia</NoteTag>
+                </li>
+                <li class="note-view__tags-item">
+                    <NoteTag>#Vue/Router</NoteTag>
+                </li>
             </ul>
         </header>
 
@@ -21,4 +30,33 @@
     </article>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.note-view {
+
+    &__header {
+        margin-bottom: rem($gap);
+        padding-bottom: rem($gap);
+
+        border-bottom: rem(2px) solid $mine-shaft-2;
+    }
+
+    &__title {
+        margin-bottom: rem($gap-mini);
+    }
+
+    &__tags {
+        display: flex;
+        flex-wrap: wrap;
+
+        margin: rem(-$gap-mini) rem(-$gap-micro) 0;
+
+        &-item {
+            margin-top: rem($gap-mini);
+            padding: 0 rem($gap-micro);
+        }
+    }
+
+    &__content {}
+}
+
+</style>

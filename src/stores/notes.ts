@@ -14,9 +14,5 @@ export const useNotesStore = defineStore('notes', {
         toNextNote() {
             console.log('toNextNote');
         },
-
-        closeCurrentNote() {
-            console.log('closeCurrentNote');
-        },
     },
 });

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useSidebarStore } from '@/stores/sidebar';
-import { useRouter } from 'vue-router';
+
+import SidebarListElement from '@/modules/sidebar/SidebarListElement.vue';
 
 import ArchiveIcon from '@/assets/icons/archive.svg';
 import FolderIcon from '@/assets/icons/folder.svg';
@@ -9,10 +10,9 @@ import CollapseIcon from '@/assets/icons/collapse.svg';
 import ExpandIcon from '@/assets/icons/expand.svg';
 
 import type { Note } from '@/common/types/note';
+import type { Folder } from '@/common/types/folder';
 
 const sidebarStore = useSidebarStore();
-
-const router = useRouter();
 
 const isExpanded = ref<Boolean>(false);
 
@@ -26,7 +26,7 @@ const collapseAction = () => {
   sidebarStore.collapseFolders();
 };
 
-const list: Note[] = [
+const list: (Folder | Note)[] = [
   {
     id: '1',
     title: 'Example',
@@ -46,7 +46,29 @@ const list: Note[] = [
   {
     id: '5',
     title: 'Миоклоническая судорога',
-    class: 'active',
+    isActive: true,
+  },
+  {
+    id: '6',
+    name: 'WebDev',
+    collection: [
+      {
+        id: '7',
+        title: 'HTML',
+      },
+      {
+        id: '8',
+        title: 'SCSS',
+      },
+      {
+        id: '9',
+        title: 'JS',
+      },
+      {
+        id: '10',
+        title: 'Vue',
+      },
+    ],
   },
 ];
 </script>
@@ -81,15 +103,12 @@ const list: Note[] = [
     </div>
 
     <ul v-if="list.length" class="sidebar__list">
-      <!-- TODO: computed class -->
       <li
-        v-for="note in list"
-        :key="note.id"
+        v-for="item in list"
+        :key="item.id"
         class="sidebar__list-item"
-        :class="`sidebar__list-item--${note.class}`"
-        @click="router.push({ path: `/${note.id}` })"
       >
-        {{ note.title }}
+        <SidebarListElement :element="item" />
       </li>
     </ul>
 
@@ -133,18 +152,6 @@ const list: Note[] = [
   &__list {
     &-item {
       margin-bottom: rem($gap-micro);
-      padding: rem($gap-mini);
-
-      transition: background-color $transition-duration $transition-function;
-
-      cursor: pointer;
-
-      border-radius: rem($border-radius);
-
-      &:hover,
-      &--active {
-        background-color: $mine-shaft-2;
-      }
 
       @include resetting-vertical-indentation-of-last;
     }

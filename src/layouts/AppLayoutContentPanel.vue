@@ -1,11 +1,17 @@
 <script lang="ts" setup>
+import { useRouter } from 'vue-router';
 import { useNotesStore } from '@/stores/notes';
 
 import ArrowLeftIcon from '@/assets/icons/arrow-left.svg';
 import ArrowRightIcon from '@/assets/icons/arrow-right.svg';
 import CloseIcon from '@/assets/icons/close.svg';
 
-const notesStore = useNotesStore(); 
+const router = useRouter();
+const notesStore = useNotesStore();
+
+const closeCurrentNote = () => {
+	router.push('/');
+};
 </script>
 
 <template>
@@ -33,7 +39,7 @@ const notesStore = useNotesStore();
 			<div class="content-panel__actions-item">
 				<CloseIcon
 					class="content-panel__actions-icon icon icon--button"
-					@click="notesStore.closeCurrentNote"
+					@click="closeCurrentNote"
 				/>
 			</div>
 		</div>
