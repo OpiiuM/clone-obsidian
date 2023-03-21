@@ -1,0 +1,34 @@
+.app-layout {
+    display: flex;
+
+    min-height: 100vh;
+    width: 100%;
+
+    color: $white;
+    background-color: $cod-gray;
+
+    &--main {}
+
+    &__sidebar {
+        overflow-y: auto;
+        flex-shrink: 0;
+
+        width: rem(280px);
+        height: 100vh;
+    }
+
+    &__content {
+        position: relative;
+
+        flex-grow: 1;
+
+        padding: rem(70px) 0;
+
+        &-panel {
+            position: absolute;
+            top: rem(10px);
+            right: rem($gap-small);
+            left: rem($gap-small);
+        }
+    }
+}
