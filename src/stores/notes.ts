@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
-import type { Notes } from '@/common/interfaces/store/notes';
+import type { INotes } from '@/common/interfaces/store/notes';
 
 export const useNotesStore = defineStore('notes', {
     state: () => ({
         history: [],
-    }) as Notes,
+    }) as INotes,
     getters: {},
     actions: {
         toPrevNote() {

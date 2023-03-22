@@ -1,0 +1,16 @@
+.form {
+	&__block {
+		@include resetting-vertical-indentation-of-first;
+
+		margin-top: rem($gap-medium);
+	}
+
+	&__field {
+		display: flex;
+		flex-direction: column;
+
+		margin-top: rem($gap-medium);
+
+		@include resetting-vertical-indentation-of-first;
+	}
+}
