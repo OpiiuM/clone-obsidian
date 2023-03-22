@@ -14,6 +14,7 @@ import type { Folder } from '@/common/types/folder';
 
 const sidebarStore = useSidebarStore();
 
+const isModalOpen = ref<Boolean>(false);
 const isExpanded = ref<Boolean>(false);
 
 const expandAction = () => {
@@ -79,7 +80,7 @@ const list: (Folder | Note)[] = [
       <div class="sidebar__actions-item">
         <ArchiveIcon
           class="sidebar__actions-icon icon icon--button"
-          @click="sidebarStore.createNote"
+          @click="isModalOpen = true"
         />
       </div>
       <div class="sidebar__actions-item">
@@ -116,6 +117,14 @@ const list: (Folder | Note)[] = [
       У вас нет заметок.
     </p>
   </div>
+  <teleport to="body">
+    <transition name="fade">
+      <AppModal
+        v-if="isModalOpen"
+        @close="isModalOpen = false"
+      />
+    </transition>
+  </teleport>
 </template>
 
 <style lang="scss" scoped>
@@ -158,5 +167,15 @@ const list: (Folder | Note)[] = [
   }
 
   &__empty {}
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity $transition-duration $transition-function;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

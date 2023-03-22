@@ -1,5 +1,5 @@
 import type { mode } from '@/common/types/mode';
 
-export interface Ui {
+export interface IUi {
     mode: mode,
 }
