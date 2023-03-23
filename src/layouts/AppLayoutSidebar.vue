@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { useSidebarStore } from '@/stores/sidebar';
 
 import SidebarListElement from '@/modules/sidebar/SidebarListElement.vue';
+import FormCreateNote from '@/modules/form/FormCreateNote.vue';
+import FormCreateFolder from '@/modules/form/FormCreateFolder.vue';
 
 import ArchiveIcon from '@/assets/icons/archive.svg';
 import FolderIcon from '@/assets/icons/folder.svg';
@@ -14,8 +16,16 @@ import type { Folder } from '@/common/types/folder';
 
 const sidebarStore = useSidebarStore();
 
-const isModalOpen = ref<Boolean>(false);
-const isExpanded = ref<Boolean>(false);
+const modals = reactive({
+  note: false,
+  folder: false,
+});
+
+const isExpanded = ref(false);
+
+const modalAction = (modalType: 'note' | 'folder', status: boolean): void => {
+  modals[modalType] = status;
+};
 
 const expandAction = () => {
   isExpanded.value = false;
@@ -80,13 +90,13 @@ const list: (Folder | Note)[] = [
       <div class="sidebar__actions-item">
         <ArchiveIcon
           class="sidebar__actions-icon icon icon--button"
-          @click="isModalOpen = true"
+          @click="modalAction('note', true)"
         />
       </div>
       <div class="sidebar__actions-item">
         <FolderIcon
           class="sidebar__actions-icon icon icon--button"
-          @click="sidebarStore.createFolder"
+          @click="modalAction('folder', true)"
         />
       </div>
       <div class="sidebar__actions-item">
@@ -117,14 +127,24 @@ const list: (Folder | Note)[] = [
       У вас нет заметок.
     </p>
   </div>
-  <teleport to="body">
-    <transition name="fade">
-      <AppModal
-        v-if="isModalOpen"
-        @close="isModalOpen = false"
-      />
-    </transition>
-  </teleport>
+
+  <AppModal
+    v-if="modals.note"
+    @close="modalAction('note', false)"
+  >
+    <FormCreateNote
+      @submit="modalAction('note', false)"
+    />
+  </AppModal>
+
+  <AppModal
+    v-if="modals.folder"
+    @close="modalAction('folder', false)"
+  >
+    <FormCreateFolder
+      @submit="modalAction('folder', false)"
+    />
+  </AppModal>
 </template>
 
 <style lang="scss" scoped>
@@ -165,17 +185,5 @@ const list: (Folder | Note)[] = [
       @include resetting-vertical-indentation-of-last;
     }
   }
-
-  &__empty {}
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity $transition-duration $transition-function;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>

@@ -22,5 +22,6 @@ watch(
 <template>
 	<component :is="layout">
 		<slot />
+		<div id="popup"></div>
 	</component>
 </template>
