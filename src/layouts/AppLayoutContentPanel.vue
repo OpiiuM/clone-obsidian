@@ -16,31 +16,33 @@ const closeCurrentNote = () => {
 
 <template>
 	<div class="content-panel">
-		<div class="content-panel__actions">
-			<div class="content-panel__actions-item">
-				<ArrowLeftIcon
-					class="content-panel__actions-icon icon icon--button"
-					@click="notesStore.toPrevNote"
-				/>
+		<div class="content-panel__wrapper">
+			<div class="content-panel__actions">
+				<div class="content-panel__actions-item">
+					<ArrowLeftIcon
+						class="content-panel__actions-icon icon icon--button"
+						@click="notesStore.toPrevNote"
+					/>
+				</div>
+				<div class="content-panel__actions-item">
+					<ArrowRightIcon
+						class="content-panel__actions-icon icon icon--button"
+						@click="notesStore.toNextNote"
+					/>
+				</div>
 			</div>
-			<div class="content-panel__actions-item">
-				<ArrowRightIcon
-					class="content-panel__actions-icon icon icon--button"
-					@click="notesStore.toNextNote"
-				/>
-			</div>
-		</div>
-
-		<p class="content-panel__name">
-			BASE / Pinia - изменение данных
-		</p>
-
-		<div class="content-panel__actions">
-			<div class="content-panel__actions-item">
-				<CloseIcon
-					class="content-panel__actions-icon icon icon--button"
-					@click="closeCurrentNote"
-				/>
+	
+			<p class="content-panel__name">
+				BASE / Pinia - изменение данных
+			</p>
+	
+			<div class="content-panel__actions">
+				<div class="content-panel__actions-item">
+					<CloseIcon
+						class="content-panel__actions-icon icon icon--button"
+						@click="closeCurrentNote"
+					/>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -48,9 +50,15 @@ const closeCurrentNote = () => {
 
 <style lang="scss" scoped>
 .content-panel {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+	background-color: $cod-gray;
+	
+	&__wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		padding: rem(10px) rem($gap-small);
+	}
 
 	&__actions {
 		display: flex;

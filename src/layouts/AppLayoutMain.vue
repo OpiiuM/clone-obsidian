@@ -16,9 +16,9 @@ const notesStore = useNotesStore();
 			<AppLayoutContentPanel
 				class="app-layout__content-panel"
 			/>
-			<AppContainer>
+			<div class="app-layout__content-container container">
 				<slot />
-			</AppContainer>
+			</div>
 		</div>
 	</div>
 </template>

@@ -16,9 +16,17 @@ export default defineComponent({
 		label: {
 			type: String,
 		},
+		required: {
+			type: Boolean,
+			default: false,	
+		},
 		component: {
 			type: String,
 			default: 'input',
+		},
+		hasError: {
+			type: Boolean,
+			default: false,
 		},
 		errorText: {
 			type: String,
@@ -29,6 +37,8 @@ export default defineComponent({
 		const computedClass = computed(() => {
 			return {
 				'field--textarea': props.component === 'textarea',
+				'field--has-error': props.hasError,
+				'field--required': props.required,
 			};
 		});
 
@@ -59,7 +69,7 @@ export default defineComponent({
 			/>
 		</div>
 		<div
-			v-if="errorText"
+			v-if="hasError && errorText"
 			class="field__error"
 		>
 			{{ errorText }}
@@ -71,7 +81,7 @@ export default defineComponent({
 .field {
 	&--has-error & {
 		&__error {
-			display: initial;
+			display: block;
 		}
 	}
 
@@ -80,6 +90,14 @@ export default defineComponent({
 			min-height: rem(140px);
 
 			resize: none;
+		}
+	}
+
+	&--required & {
+		&__label {
+			&::after {
+				content: " *";
+			}
 		}
 	}
 
@@ -109,6 +127,8 @@ export default defineComponent({
 	}
 
 	&__error {
+		@include text-size(12px, 14px);
+
 		display: none;
 
 		margin-top: rem($gap-mini);
