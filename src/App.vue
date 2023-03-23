@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterView } from 'vue-router';
+import AppLayout from '@/layouts/AppLayout.vue';
 </script>
 
 <template>
-  <div class="app">
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam mollitia quos exercitationem
-    dicta vitae qui sint rem delectus veniam. Ratione impedit esse sequi velit obcaecati facilis!
-    Perspiciatis mollitia repellat quia.
-  </div>
+  <app-layout>
+    <router-view />
+  </app-layout>
 </template>
 
 <style lang="scss">

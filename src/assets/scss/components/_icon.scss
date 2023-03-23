@@ -1,0 +1,14 @@
+.icon {
+    display: block;
+
+    width: 100%;
+    max-width: rem(28px);
+    height: 100%;
+    max-height: rem(28px);
+
+    fill: currentColor;
+
+    &--button {
+        cursor: pointer;
+    }
+}
