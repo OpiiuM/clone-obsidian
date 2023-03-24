@@ -1,36 +1,36 @@
 .app-layout {
-    display: flex;
+	display: flex;
 
-    height: 100vh;
-    width: 100%;
+	height: 100vh;
+	width: 100%;
 
-    color: $white;
-    background-color: $cod-gray;
+	color: $white;
+	background-color: $cod-gray;
 
-    &__sidebar {
-        overflow-y: auto;
-        flex-shrink: 0;
+	&__sidebar {
+		overflow-y: auto;
+		flex-shrink: 0;
 
-        width: rem(280px);
-        height: 100vh;
-    }
+		width: rem(280px);
+		height: 100vh;
+	}
 
-    &__content {
-        position: relative;
+	&__content {
+		position: relative;
 
-        overflow-y: auto;
-        flex-grow: 1;
+		overflow-y: auto;
+		flex-grow: 1;
 
-        padding: 0 0 rem(70px);
+		padding: 0 0 rem(70px);
 
-        &-panel {
-            position: sticky;
-            top: 0;
-            left: 0;
-        }
+		&-panel {
+			position: sticky;
+			top: 0;
+			left: 0;
+		}
 
-        &-container {
-            margin-top: rem(20px);
-        }
-    }
+		&-container {
+			margin-top: rem(20px);
+		}
+	}
 }

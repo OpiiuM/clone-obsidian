@@ -19,13 +19,13 @@ const closeCurrentNote = () => {
 		<div class="content-panel__wrapper">
 			<div class="content-panel__actions">
 				<div class="content-panel__actions-item">
-					<ArrowLeftIcon
+					<arrow-left-icon
 						class="content-panel__actions-icon icon icon--button"
 						@click="notesStore.toPrevNote"
 					/>
 				</div>
 				<div class="content-panel__actions-item">
-					<ArrowRightIcon
+					<arrow-right-icon
 						class="content-panel__actions-icon icon icon--button"
 						@click="notesStore.toNextNote"
 					/>
@@ -38,7 +38,7 @@ const closeCurrentNote = () => {
 	
 			<div class="content-panel__actions">
 				<div class="content-panel__actions-item">
-					<CloseIcon
+					<close-icon
 						class="content-panel__actions-icon icon icon--button"
 						@click="closeCurrentNote"
 					/>

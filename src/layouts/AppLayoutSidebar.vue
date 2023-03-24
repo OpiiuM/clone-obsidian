@@ -11,10 +11,7 @@ import FolderIcon from '@/assets/icons/folder.svg';
 import CollapseIcon from '@/assets/icons/collapse.svg';
 import ExpandIcon from '@/assets/icons/expand.svg';
 
-import type { Note } from '@/common/types/note';
-import type { Folder } from '@/common/types/folder';
-
-const sidebarStore = useSidebarStore();
+const { list } = useSidebarStore();
 
 const modals = reactive({
   note: false,
@@ -29,83 +26,52 @@ const modalAction = (modalType: 'note' | 'folder', status: boolean): void => {
 
 const expandAction = () => {
   isExpanded.value = false;
-  sidebarStore.expandFolders();
+  // sidebarStore.expandFolders();
 };
 
 const collapseAction = () => {
   isExpanded.value = true;
-  sidebarStore.collapseFolders();
+  // sidebarStore.collapseFolders();
 };
 
-const list: (Folder | Note)[] = [
-  {
-    id: '1',
-    title: 'Example',
-  },
-  {
-    id: '2',
-    title: 'index',
-  },
-  {
-    id: '3',
-    title: 'Алгоритм Дейкстры',
-  },
-  {
-    id: '4',
-    title: 'Вавилонская библиотека',
-  },
-  {
-    id: '5',
-    title: 'Миоклоническая судорога',
-    isActive: true,
-  },
-  {
-    id: '6',
-    name: 'WebDev',
-    collection: [
-      {
-        id: '7',
-        title: 'HTML',
-      },
-      {
-        id: '8',
-        title: 'SCSS',
-      },
-      {
-        id: '9',
-        title: 'JS',
-      },
-      {
-        id: '10',
-        title: 'Vue',
-      },
-    ],
-  },
-];
+const createNoteHandler = (data: { [attr: string]: string }) => {
+  console.log(data);
+
+  modalAction('note', false);
+};
+
+const createFolderHandler = (data: { [attr: string]: string }) => {
+  console.log(data);
+
+  modalAction('folder', false);
+};
 </script>
 
 <template>
-  <div class="sidebar">
+  <div class="app-layout__sidebar sidebar">
     <div class="sidebar__actions">
       <div class="sidebar__actions-item">
-        <ArchiveIcon
+        <archive-icon
           class="sidebar__actions-icon icon icon--button"
           @click="modalAction('note', true)"
         />
       </div>
       <div class="sidebar__actions-item">
-        <FolderIcon
+        <folder-icon
           class="sidebar__actions-icon icon icon--button"
           @click="modalAction('folder', true)"
         />
       </div>
-      <div class="sidebar__actions-item">
-        <ExpandIcon
+      <div
+        v-if="list.length"
+        class="sidebar__actions-item"
+      >
+        <expand-icon
           v-if="isExpanded"
           class="sidebar__actions-icon icon icon--button"
           @click="expandAction"
         />
-        <CollapseIcon
+        <collapse-icon
           v-else
           class="sidebar__actions-icon icon icon--button"
           @click="collapseAction"
@@ -119,7 +85,7 @@ const list: (Folder | Note)[] = [
         :key="item.id"
         class="sidebar__list-item"
       >
-        <SidebarListElement :element="item" />
+        <sidebar-list-element :element="item" />
       </li>
     </ul>
 
@@ -128,23 +94,23 @@ const list: (Folder | Note)[] = [
     </p>
   </div>
 
-  <AppModal
+  <app-modal
     v-if="modals.note"
     @close="modalAction('note', false)"
   >
-    <FormCreateNote
-      @submit="modalAction('note', false)"
+    <form-create-note
+      @submit="createNoteHandler"
     />
-  </AppModal>
+  </app-modal>
 
-  <AppModal
+  <app-modal
     v-if="modals.folder"
     @close="modalAction('folder', false)"
   >
-    <FormCreateFolder
-      @submit="modalAction('folder', false)"
+    <form-create-folder
+      @submit="createFolderHandler"
     />
-  </AppModal>
+  </app-modal>
 </template>
 
 <style lang="scss" scoped>
@@ -184,6 +150,10 @@ const list: (Folder | Note)[] = [
 
       @include resetting-vertical-indentation-of-last;
     }
+  }
+
+  &__empty {
+    text-align: center;
   }
 }
 </style>

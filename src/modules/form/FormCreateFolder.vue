@@ -1,56 +1,59 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
 
 import { MessageError } from '@/common/enums/messageError';
 
+type formFolder = {
+	[attr: string]: string,
+}
+
 const emits = defineEmits<{
-	(e: 'submit'): void;
+	(e: 'submit', formData: formFolder): void;
 }>();
 
-const state = reactive({
+const formData: formFolder = reactive({
 	name: '',
 	folder: '',
 });
 
-const rules = {
-	name: { required },  
-};
+const existFolders = ['', 'WebDev', 'Career', 'Study', 'Projects'];
 
-const v$ = useVuelidate(rules, state);
-
-const handleSubmit = async () => {
-	const isValid = await v$.value.$validate();
-	isValid && emits('submit');
+const handleSubmit = () => {
+	emits('submit', formData);
 };
 </script>
 
 <template>
-	<form class="form" @submit.prevent="handleSubmit">
+	<form-kit
+		type="form"
+		class="form"
+		submit-label="Создать Группу"
+		:incomplete-message="false"
+		@submit="handleSubmit"
+	>
 		<div class="form__block">
 			<div class="form__field">
-				<AppInput
-					v-model="state.name"
-					id="title"
+				<form-kit
+					type="text"
+					v-model="formData.name"
+					name="name"
 					label="Название группы"
-					required
-					:has-error="v$.name.$error"
-					:error-text="MessageError.Required"
+					autocomplete="off"
+					validation="required"
+					:validation-messages="{
+						required: MessageError.Required,
+					}"
 				/>
 			</div>
 			<div class="form__field">
-				<AppInput
-					v-model="state.folder"
-					id="folder"
+				<form-kit
+					type="select"
+					v-model="formData.folder"
+					name="folder"
 					label="Родительская группа"
+					:options="existFolders"
 				/>
 			</div>
 		</div>
-		<div class="form__block">
-			<AppButton type="submit">
-				Создать Группу
-			</AppButton>
-		</div>
-	</form>
+	</form-kit>
 </template>

@@ -20,7 +20,7 @@ export default defineComponent({
 			type: Boolean,
 			default: false,	
 		},
-		component: {
+		tag: {
 			type: String,
 			default: 'input',
 		},
@@ -36,7 +36,7 @@ export default defineComponent({
 	setup(props) {
 		const computedClass = computed(() => {
 			return {
-				'field--textarea': props.component === 'textarea',
+				'field--textarea': props.tag === 'textarea',
 				'field--has-error': props.hasError,
 				'field--required': props.required,
 			};
@@ -60,7 +60,7 @@ export default defineComponent({
 		</label>
 		<div class="field__control">
 			<component
-				:is="component"
+				:is="tag"
 				v-bind="$attrs"
 				:value="modelValue"
 				:id="id"
@@ -106,8 +106,6 @@ export default defineComponent({
 
 		margin-bottom: rem($gap-mini);
 	}
-
-	&__control {}
 
 	&__input {
 		width: 100%;

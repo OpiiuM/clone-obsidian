@@ -1,0 +1,50 @@
+.formkit {
+	&-wrapper {
+		max-width: none !important;
+	}
+
+	&-label {
+		font-size: initial !important;
+		font-weight: initial !important;
+		line-height: initial !important;
+	}
+
+	&-inner {
+		transition: border-color $transition-duration $transition-function,
+								box-shadow $transition-duration $transition-function !important;
+
+		&:focus-within {
+			border-color: $white !important;
+			box-shadow: 0 0 0 $white !important;
+		}
+	}
+
+	&-input {
+		transition: border-color $transition-duration $transition-function;
+
+		color: $white !important;
+		border: rem(1px) solid $mine-shaft-2 !important;
+		border-radius: rem($border-radius-micro) !important;
+		background-color: $mine-shaft-3 !important;
+
+		&:focus {
+			border-color: $white !important;
+		}
+
+		&[type="submit"] {
+			font-size: initial !important;
+			line-height: initial !important;
+
+			transition: background-color $transition-duration $transition-function !important;
+
+			color: $white !important;
+			border: rem(1px) solid $mine-shaft !important;
+			border-radius: rem($border-radius) !important;
+			background-color: $milano-red !important;
+
+			&:hover {
+				background-color: lighten($milano-red, 10%) !important;
+			}
+		}
+	}
+}
