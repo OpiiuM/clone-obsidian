@@ -1,84 +1,81 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
 
 import { MessageError } from '@/common/enums/messageError';
 
+type formNote = {
+	[attr: string]: string,
+}
+
 const emits = defineEmits<{
-	(e: 'submit'): void;
+	(e: 'submit', formData: formNote ): void;
 }>();
 
-const state = reactive({
+const formData: formNote = reactive({
 	title: '',
 	folder: '',
 	tags: '',
 	content: '',
 });
 
-const rules = {
-	title: { required }, 
-	tags: { required }, 
-	content: { required }, 
-};
-
-const v$ = useVuelidate(rules, state);
-
-const handleSubmit = async () => {
-	const isValid = await v$.value.$validate();
-	isValid && emits('submit');
+const handleSubmit = () => {
+	emits('submit', formData);
 };
 </script>
 
 <template>
-	<form class="form" @submit.prevent="handleSubmit">
+	<form-kit
+		type="form"
+		class="form"
+		submit-label="Создать заметку"
+		:incomplete-message="false"
+		@submit="handleSubmit"
+	>
 		<div class="form__block">
 			<div class="form__field">
-				<AppInput
-					v-model="state.title"
-					id="title"
+				<form-kit
+					type="text"
+					v-model="formData.title"
+					name="title"
 					label="Заголовок"
-					required
-					:has-error="v$.title.$error"
-					:error-text="MessageError.Required"
+					autocomplete="off"
+					validation="required"
+					:validation-messages="{ required: MessageError.Required }"
 				/>
 			</div>
 			<div class="form__field">
-				<AppInput
-					v-model="state.folder"
-					id="folder"
+				<form-kit
+					type="text"
+					v-model="formData.folder"
+					name="folder"
 					label="Группа Заметок"
+					autocomplete="off"
 				/>
 			</div>
 			<div class="form__field">
-				<AppInput
-					v-model="state.tags"
-					id="tags"
+				<form-kit
+					type="text"
+					v-model="formData.tags"
+					name="tags"
 					label="Тэги"
-					required
+					autocomplete="off"
 					placeholder="Разработка; Тайм-менеджмент; Дизайн"
-					:has-error="v$.tags.$error"
-					:error-text="MessageError.Required"
+					validation="required"
+					:validation-messages="{ required: MessageError.Required }"
 				/>
 			</div>
 		</div>
 		<div class="form__block">
 			<div class="form__field">
-				<AppInput
-					component="textarea"
-					v-model="state.content"
-					id="content"
+				<form-kit
+					type="textarea"
+					v-model="formData.content"
+					name="content"
 					label="Текст"
-					required
-					:has-error="v$.content.$error"
-					:error-text="MessageError.Required"
+					validation="required"
+					:validation-messages="{ required: MessageError.Required }"
 				/>
 			</div>
 		</div>
-		<div class="form__block">
-			<AppButton type="submit">
-				Создать заметку
-			</AppButton>
-		</div>
-	</form>
+	</form-kit>
 </template>

@@ -1,8 +1,5 @@
 <template>
-	<button
-		v-bind="$attrs"
-		class="button"
-	>
+	<button class="button">
 		<span v-if="$slots.prefix" class="button__prefix">
 			<slot name="prefix" />
 		</span>
