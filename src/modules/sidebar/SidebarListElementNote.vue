@@ -13,7 +13,7 @@ const emits = defineEmits<{
 	(e: 'click-note', id: number | string): void;
 }>();
 
-const isOpen = ref<Boolean>(false);
+const isOpen = ref(false);
 
 const handleClick = () => {
 	if (props.isHeading) {
@@ -30,11 +30,11 @@ const handleClick = () => {
 		@click="handleClick"
 	>
 		<template v-if="props.isHeading">
-			<AngleRightIcon
+			<angle-right-icon
 				v-if="isOpen"
 				class="note__icon icon"
 			/>
-			<AngleBottomIcon
+			<angle-bottom-icon
 				v-else
 				class="note__icon icon"
 			/>

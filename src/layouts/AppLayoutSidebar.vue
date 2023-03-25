@@ -2,7 +2,8 @@
 import { ref, reactive } from 'vue';
 import { useSidebarStore } from '@/stores/sidebar';
 
-import SidebarListElement from '@/modules/sidebar/SidebarListElement.vue';
+import NodeTree from '@/modules/sidebar/NodeTree.vue';
+// import SidebarListElement from '@/modules/sidebar/SidebarListElement.vue';
 import FormCreateNote from '@/modules/form/FormCreateNote.vue';
 import FormCreateFolder from '@/modules/form/FormCreateFolder.vue';
 
@@ -80,13 +81,12 @@ const createFolderHandler = (data: { [attr: string]: string }) => {
     </div>
 
     <ul v-if="list.length" class="sidebar__list">
-      <li
+      <node-tree
         v-for="item in list"
         :key="item.id"
         class="sidebar__list-item"
-      >
-        <sidebar-list-element :element="item" />
-      </li>
+        :node="item"
+      />
     </ul>
 
     <p v-else class="sidebar__empty">

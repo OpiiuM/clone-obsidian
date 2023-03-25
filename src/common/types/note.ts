@@ -1,6 +1,6 @@
 export type Note = {
     id: string | number,
-    title: string,
+    name: string,
     content?: string,
     isActive?: boolean, // TODO: remove
     tags?: string[],
