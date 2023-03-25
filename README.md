@@ -1,5 +1,10 @@
 # clone-obsidian
 
+Проект является копией существующей desktop программы "Obsidian" (https://obsidian.md).
+**Данная разработка является учебной**, для практики таких технологий как Vue 3 Composition API и TypeScript (с небольшими дополнениями с моей стороны).
+
+
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
