@@ -1,29 +1,35 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 import SidebarListElementNote from './SidebarListElementNote.vue';
 
 export default defineComponent({
-	name: 'node-tree',
+	name: 'sidebar-list-node',
 
 	components: {
 		SidebarListElementNote,
 	},
 
 	props: {
-		node: Object,
-		default: () => {},
+		node: {
+			type: Object,
+			default: () => {},
+		},
 	},
 
 	setup(props) {
 		const router = useRouter();
 
+		const isOpenNode = ref(false);
+
 		const hasChildren = computed(() => {
 			return props.node.collection && props.node.collection.length;
 		});
 
-		const folderClickHandler = (id: number | string) => {
+		const folderClickHandler = (id: number | string, openStatus: boolean) => {
+			isOpenNode.value = openStatus;
+
 			console.log('folder - click', id);
 		};
 
@@ -32,6 +38,7 @@ export default defineComponent({
 		};
 
 		return {
+			isOpenNode,
 			hasChildren,
 			folderClickHandler,
 			noteClickHandler,
@@ -41,12 +48,17 @@ export default defineComponent({
 </script>
 
 <template>
-	<li class="node-tree">
-		<template v-if="hasChildren">
+	<li
+		class="sidebar-list-node" 
+		:class="{ 'sidebar-list-node--open': node.collection && isOpenNode }"
+	>
+		<template v-if="node.collection">
 			<sidebar-list-element-note
+				class="sidebar-list-node__name"
 				:id="node.id"
 				:name="node.name"
 				:is-heading="true"
+				:is-open="isOpenNode"
 				@click-note="folderClickHandler"
 			/>
 		</template>
@@ -58,8 +70,8 @@ export default defineComponent({
 			/>
 		</template>
 
-		<ul v-if="hasChildren">
-			<node-tree
+		<ul v-if="hasChildren" class="sidebar-list-node__list">
+			<sidebar-list-node
 				v-for="child in node.collection"
 				:key="child.id"
 				:node="child"
@@ -69,7 +81,36 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-ul {
-	margin-left: rem($gap-medium);
+.sidebar-list-node {
+	&--open & {
+		&__list {
+			display: block;
+		}
+
+		&__list &__list {
+			display: none;
+		}
+	}
+
+	&__list {
+		position: relative;
+
+		display: none;
+
+		padding-left: rem($gap-medium);
+
+		&::before {
+			position: absolute;
+			top: rem($gap-micro);
+			bottom: rem($gap-micro);
+			left: rem(15px);
+
+			width: rem(1px);
+
+			content: "";
+
+			background-color: $white;
+		}
+	}
 }
 </style>
