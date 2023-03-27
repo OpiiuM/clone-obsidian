@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
-
 import AngleRightIcon from '@/assets/icons/angle-right.svg';
 import AngleBottomIcon from '@/assets/icons/angle-bottom.svg';
 
@@ -8,19 +6,18 @@ const props = defineProps<{
 	id: number | string,
 	name: string,
 	isHeading?: boolean,
+	isOpen?: boolean,
 }>();
 const emits = defineEmits<{
-	(e: 'click-note', id: number | string): void;
+	(e: 'click-note', id: number | string, isOpen?: Boolean): void;
 }>();
-
-const isOpen = ref<Boolean>(false);
 
 const handleClick = () => {
 	if (props.isHeading) {
-		isOpen.value = !isOpen.value;
+		emits('click-note', props.id, !props.isOpen);
+	} else {
+		emits('click-note', props.id);
 	}
-
-	emits('click-note', props.id);
 };
 </script>
 
@@ -30,11 +27,11 @@ const handleClick = () => {
 		@click="handleClick"
 	>
 		<template v-if="props.isHeading">
-			<AngleRightIcon
+			<angle-right-icon
 				v-if="isOpen"
 				class="note__icon icon"
 			/>
-			<AngleBottomIcon
+			<angle-bottom-icon
 				v-else
 				class="note__icon icon"
 			/>

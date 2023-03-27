@@ -8,23 +8,23 @@ export const useSidebarStore = defineStore('sidebar', {
 		list: [
 			{
 				id: '1',
-				title: 'Example',
+				name: 'Example',
 			},
 			{
 				id: '2',
-				title: 'index',
+				name: 'index',
 			},
 			{
 				id: '3',
-				title: 'Алгоритм Дейкстры',
+				name: 'Алгоритм Дейкстры',
 			},
 			{
 				id: '4',
-				title: 'Вавилонская библиотека',
+				name: 'Вавилонская библиотека',
 			},
 			{
 				id: '5',
-				title: 'Миоклоническая судорога',
+				name: 'Миоклоническая судорога',
 				isActive: true,
 			},
 			{
@@ -33,19 +33,29 @@ export const useSidebarStore = defineStore('sidebar', {
 				collection: [
 					{
 						id: '7',
-						title: 'HTML',
+						name: 'HTML',
 					},
 					{
 						id: '8',
-						title: 'SCSS',
+						name: 'SCSS',
 					},
 					{
 						id: '9',
-						title: 'JS',
-					},
-					{
-						id: '10',
-						title: 'Vue',
+						name: 'JS',
+						collection: [
+							{
+								id: '10',
+								name: 'Vue',
+							},
+							{
+								id: '11',
+								name: 'React',
+							},
+							{
+								id: '12',
+								name: 'Svelte',
+							},
+						],
 					},
 				],
 			},

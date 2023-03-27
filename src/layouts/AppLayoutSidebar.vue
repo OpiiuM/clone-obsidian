@@ -2,7 +2,7 @@
 import { ref, reactive } from 'vue';
 import { useSidebarStore } from '@/stores/sidebar';
 
-import SidebarListElement from '@/modules/sidebar/SidebarListElement.vue';
+import SidebarListNode from '@/modules/sidebar/SidebarListNode.vue';
 import FormCreateNote from '@/modules/form/FormCreateNote.vue';
 import FormCreateFolder from '@/modules/form/FormCreateFolder.vue';
 
@@ -26,12 +26,10 @@ const modalAction = (modalType: 'note' | 'folder', status: boolean): void => {
 
 const expandAction = () => {
   isExpanded.value = false;
-  // sidebarStore.expandFolders();
 };
 
 const collapseAction = () => {
   isExpanded.value = true;
-  // sidebarStore.collapseFolders();
 };
 
 const createNoteHandler = (data: { [attr: string]: string }) => {
@@ -80,13 +78,12 @@ const createFolderHandler = (data: { [attr: string]: string }) => {
     </div>
 
     <ul v-if="list.length" class="sidebar__list">
-      <li
+      <sidebar-list-node
         v-for="item in list"
         :key="item.id"
         class="sidebar__list-item"
-      >
-        <sidebar-list-element :element="item" />
-      </li>
+        :node="item"
+      />
     </ul>
 
     <p v-else class="sidebar__empty">
