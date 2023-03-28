@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, reactive } from 'vue';
+import { reactive } from 'vue';
 import { useSidebarStore } from '@/stores/sidebar';
 
 import SidebarListNode from '@/modules/sidebar/SidebarListNode.vue';
@@ -11,25 +11,15 @@ import FolderIcon from '@/assets/icons/folder.svg';
 import CollapseIcon from '@/assets/icons/collapse.svg';
 import ExpandIcon from '@/assets/icons/expand.svg';
 
-const { list } = useSidebarStore();
+const sidebarStore = useSidebarStore();
 
 const modals = reactive({
   note: false,
   folder: false,
 });
 
-const isExpanded = ref(false);
-
 const modalAction = (modalType: 'note' | 'folder', status: boolean): void => {
   modals[modalType] = status;
-};
-
-const expandAction = () => {
-  isExpanded.value = false;
-};
-
-const collapseAction = () => {
-  isExpanded.value = true;
 };
 
 const createNoteHandler = (data: { [attr: string]: string }) => {
@@ -61,25 +51,25 @@ const createFolderHandler = (data: { [attr: string]: string }) => {
         />
       </div>
       <div
-        v-if="list.length"
+        v-if="sidebarStore.list.length"
         class="sidebar__actions-item"
       >
-        <expand-icon
-          v-if="isExpanded"
-          class="sidebar__actions-icon icon icon--button"
-          @click="expandAction"
-        />
         <collapse-icon
+          v-if="sidebarStore.folderExpanded"
+          class="sidebar__actions-icon icon icon--button"
+          @click="sidebarStore.collapseFolders"
+        />
+        <expand-icon
           v-else
           class="sidebar__actions-icon icon icon--button"
-          @click="collapseAction"
+          @click="sidebarStore.expandFolders"
         />
       </div>
     </div>
 
-    <ul v-if="list.length" class="sidebar__list">
+    <ul v-if="sidebarStore.list.length" class="sidebar__list">
       <sidebar-list-node
-        v-for="item in list"
+        v-for="item in sidebarStore.list"
         :key="item.id"
         class="sidebar__list-item"
         :node="item"
