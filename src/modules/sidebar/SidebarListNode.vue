@@ -1,6 +1,7 @@
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useSidebarStore } from '@/stores/sidebar';
 
 import SidebarListElementNote from './SidebarListElementNote.vue';
 
@@ -20,8 +21,16 @@ export default defineComponent({
 
 	setup(props) {
 		const router = useRouter();
+		const sidebarStore = useSidebarStore();
 
 		const isOpenNode = ref(false);
+
+		watch(
+			() => sidebarStore.getFolderExpanded,
+			(newValue) => {
+				isOpenNode.value = newValue;
+			},
+		);
 
 		const hasChildren = computed(() => {
 			return props.node.collection && props.node.collection.length;
@@ -49,7 +58,7 @@ export default defineComponent({
 
 <template>
 	<li
-		class="sidebar-list-node" 
+		class="sidebar-list-node"
 		:class="{ 'sidebar-list-node--open': node.collection && isOpenNode }"
 	>
 		<template v-if="node.collection">

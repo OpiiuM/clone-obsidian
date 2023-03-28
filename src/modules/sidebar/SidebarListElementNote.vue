@@ -27,11 +27,11 @@ const handleClick = () => {
 		@click="handleClick"
 	>
 		<template v-if="props.isHeading">
-			<angle-right-icon
+			<angle-bottom-icon
 				v-if="isOpen"
 				class="note__icon icon"
 			/>
-			<angle-bottom-icon
+			<angle-right-icon
 				v-else
 				class="note__icon icon"
 			/>

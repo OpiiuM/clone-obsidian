@@ -5,6 +5,7 @@ import type { Folder } from '@/common/types/folder';
 
 export const useSidebarStore = defineStore('sidebar', {
 	state: () => ({
+		folderExpanded: false,
 		list: [
 			{
 				id: '1',
@@ -61,7 +62,9 @@ export const useSidebarStore = defineStore('sidebar', {
 			},
 		] as Array<Note | Folder | null>,
 	}),
-	getters: {},
+	getters: {
+		getFolderExpanded: (state) => state.folderExpanded,
+	},
 	actions: {
 		createNote() {
 			console.log('createNote');
@@ -72,11 +75,11 @@ export const useSidebarStore = defineStore('sidebar', {
 		},
 
 		expandFolders() {
-			console.log('expandFolders');
+			this.folderExpanded = true;
 		},
 
 		collapseFolders() {
-			console.log('collapseFolders');
+			this.folderExpanded = false;
 		},
 	},
 });
