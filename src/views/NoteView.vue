@@ -58,5 +58,4 @@ import NoteTag from '@/modules/note/NoteTag.vue';
 
     &__content {}
 }
-
 </style>

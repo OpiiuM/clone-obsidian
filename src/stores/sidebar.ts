@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 
-import type { Note } from '@/common/types/note';
-import type { Folder } from '@/common/types/folder';
+import type { ISidebarElement } from '@/common/interfaces';
 
 export const useSidebarStore = defineStore('sidebar', {
 	state: () => ({
@@ -10,23 +9,27 @@ export const useSidebarStore = defineStore('sidebar', {
 			{
 				id: '1',
 				name: 'Example',
+				content: 'Example text - is example text.',
 			},
 			{
 				id: '2',
 				name: 'index',
+				content: 'Root note ...',
 			},
 			{
 				id: '3',
 				name: 'Алгоритм Дейкстры',
+				content: 'https://habr.com/ru/company/otus/blog/599621/',
 			},
 			{
 				id: '4',
 				name: 'Вавилонская библиотека',
+				content: '...',
 			},
 			{
 				id: '5',
 				name: 'Миоклоническая судорога',
-				isActive: true,
+				content: '',
 			},
 			{
 				id: '6',
@@ -35,10 +38,12 @@ export const useSidebarStore = defineStore('sidebar', {
 					{
 						id: '7',
 						name: 'HTML',
+						content: 'is language',
 					},
 					{
 						id: '8',
 						name: 'SCSS',
+						content: 'is preprocessor',
 					},
 					{
 						id: '9',
@@ -47,20 +52,23 @@ export const useSidebarStore = defineStore('sidebar', {
 							{
 								id: '10',
 								name: 'Vue',
+								content: 'is js framework',
 							},
 							{
 								id: '11',
 								name: 'React',
+								content: 'is js library',
 							},
 							{
 								id: '12',
 								name: 'Svelte',
+								content: 'is js framework',
 							},
 						],
 					},
 				],
 			},
-		] as Array<Note | Folder | null>,
+		] as Array<ISidebarElement | null>,
 	}),
 	getters: {
 		getFolderExpanded: (state) => state.folderExpanded,

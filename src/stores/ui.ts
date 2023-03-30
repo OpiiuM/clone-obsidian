@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia';
-import type { IUi } from '@/common/interfaces/store/ui';
+
+import type { UiStore } from '@/common/interfaces';
 
 export const useUiStore = defineStore('ui', {
     state: () => ({
         mode: 'show',
-    }) as IUi,
+    }) as UiStore,
     getters: {},
     actions: {},
 });

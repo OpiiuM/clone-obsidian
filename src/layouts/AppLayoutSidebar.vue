@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
-import { useSidebarStore } from '@/stores/sidebar';
+import { useSidebarStore } from '@/stores';
 
 import SidebarListNode from '@/modules/sidebar/SidebarListNode.vue';
 import FormCreateNote from '@/modules/form/FormCreateNote.vue';
