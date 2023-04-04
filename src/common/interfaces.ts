@@ -1,18 +1,19 @@
 import type { Note, Mode } from './types';
 
 export interface INote {
-	id: number | string,
+	id: string,
 	name: string,
 	tags?: string[],
-	content: string,
+	content?: string,
 }
 
 export interface ISidebarElement extends INote {
-	collection?: Note[] | [],
+	collection?: Note[],
+	parent?: string,
 }
 
 export interface NotesStore {
-	history: Note[],
+	history: string[],
 }
 
 export interface UiStore {

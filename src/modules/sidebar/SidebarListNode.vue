@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useSidebarStore } from '@/stores/sidebar';
+import { useSidebarStore, useNotesStore } from '@/stores';
 
 import SidebarListElementNote from './SidebarListElementNote.vue';
 
@@ -22,6 +22,7 @@ export default defineComponent({
 	setup(props) {
 		const router = useRouter();
 		const sidebarStore = useSidebarStore();
+		const notesStore = useNotesStore();
 
 		const isOpenNode = ref(false);
 
@@ -36,14 +37,13 @@ export default defineComponent({
 			return props.node.collection && props.node.collection.length;
 		});
 
-		const folderClickHandler = (id: number | string, openStatus: boolean) => {
+		const folderClickHandler = (id: string, openStatus: boolean) => {
 			isOpenNode.value = openStatus;
-
-			console.log('folder - click', id);
 		};
 
-		const noteClickHandler = (id: number | string) => {
-			router.push({ path: `/${id}` });
+		const noteClickHandler = (id: string) => {
+			router.push(`/${id}`);
+			notesStore.addNoteToHistory(id);
 		};
 
 		return {

@@ -1,25 +1,34 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 
-import { MessageError } from '@/common/enums/messageError';
+import { useSidebarStore } from '@/stores';
 
-type formFolder = {
-	[attr: string]: string,
-}
+import { MessageError } from '@/common/enums';
+import type { FormData } from '@/common/types';
+
+const sidebarStore = useSidebarStore();
 
 const emits = defineEmits<{
-	(e: 'submit', formData: formFolder): void;
+	(e: 'submit', formData: FormData): void;
 }>();
 
-const formData: formFolder = reactive({
+const formData: FormData = reactive({
 	name: '',
-	folder: '',
+	parent: '',
 });
 
 const existFolders = ['', 'WebDev', 'Career', 'Study', 'Projects'];
 
 const handleSubmit = () => {
-	emits('submit', formData);
+	const index = sidebarStore.list.findIndex((el) => {
+		return el?.collection && el.name === formData.name;
+	});
+
+	if (index === -1) {
+		emits('submit', formData);
+	} else {
+		console.error('Same folder name');
+	}
 };
 </script>
 
@@ -48,7 +57,7 @@ const handleSubmit = () => {
 			<div class="form__field">
 				<form-kit
 					type="select"
-					v-model="formData.folder"
+					v-model="formData.parent"
 					name="folder"
 					label="Родительская группа"
 					:options="existFolders"

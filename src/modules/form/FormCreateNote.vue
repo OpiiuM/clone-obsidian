@@ -1,25 +1,33 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 
-import { MessageError } from '@/common/enums/messageError';
+import { useSidebarStore } from '@/stores';
 
-type formNote = {
-	[attr: string]: string,
-}
+import { MessageError } from '@/common/enums';
+import type { FormData } from '@/common/types';
+
+const sidebarStore = useSidebarStore();
 
 const emits = defineEmits<{
-	(e: 'submit', formData: formNote ): void;
+	(e: 'submit', formData: FormData ): void;
 }>();
 
-const formData: formNote = reactive({
-	title: '',
-	folder: '',
+const formData: FormData = reactive({
+	name: '',
 	tags: '',
 	content: '',
 });
 
 const handleSubmit = () => {
-	emits('submit', formData);
+	const index = sidebarStore.list.findIndex((el) => {
+		return !el?.collection && el?.name === formData.name;
+	});
+
+	if (index === -1) {
+		emits('submit', formData);
+	} else {
+		console.error('Same note name');
+	}
 };
 </script>
 
@@ -35,15 +43,15 @@ const handleSubmit = () => {
 			<div class="form__field">
 				<form-kit
 					type="text"
-					v-model="formData.title"
-					name="title"
+					v-model="formData.name"
+					name="name"
 					label="Заголовок"
 					autocomplete="off"
 					validation="required"
 					:validation-messages="{ required: MessageError.Required }"
 				/>
 			</div>
-			<div class="form__field">
+			<!-- <div class="form__field">
 				<form-kit
 					type="text"
 					v-model="formData.folder"
@@ -51,7 +59,7 @@ const handleSubmit = () => {
 					label="Группа Заметок"
 					autocomplete="off"
 				/>
-			</div>
+			</div> -->
 			<div class="form__field">
 				<form-kit
 					type="text"
