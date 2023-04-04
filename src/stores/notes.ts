@@ -1,18 +1,30 @@
 import { defineStore } from 'pinia';
-import type { INotes } from '@/common/interfaces/store/notes';
+
+import type { NotesStore } from '@/common/interfaces';
 
 export const useNotesStore = defineStore('notes', {
-    state: () => ({
-        history: [],
-    }) as INotes,
-    getters: {},
-    actions: {
-        toPrevNote() {
-            console.log('toPrevNote');
-        },
+	state: () => ({
+		history: [],
+		selectIndex: 0,
+	}) as NotesStore,
+	getters: {
+		isFirstHistoryNote: (state) => state.selectIndex === 0,
+		isLastHistoryNote: (state) => state.selectIndex === state.history.length - 1,
+	},
+	actions: {
+		toPrevNote() {
+			if (this.selectIndex !== 0) {
+				this.selectIndex -= 1;
+			}
+		},
 
-        toNextNote() {
-            console.log('toNextNote');
-        },
-    },
+		toNextNote() {
+			this.selectIndex += 1;
+		},
+
+		addNoteToHistory(id: string) {
+			this.history.push(id);
+			this.selectIndex = this.history.length - 1;
+		},
+	},
 });

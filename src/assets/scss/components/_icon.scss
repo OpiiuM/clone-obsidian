@@ -11,4 +11,8 @@
     &--button {
         cursor: pointer;
     }
+
+    &--disable {
+        pointer-events: none;
+    }
 }

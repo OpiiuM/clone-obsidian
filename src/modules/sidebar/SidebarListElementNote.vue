@@ -3,13 +3,13 @@ import AngleRightIcon from '@/assets/icons/angle-right.svg';
 import AngleBottomIcon from '@/assets/icons/angle-bottom.svg';
 
 const props = defineProps<{
-	id: number | string,
+	id: string,
 	name: string,
 	isHeading?: boolean,
 	isOpen?: boolean,
 }>();
 const emits = defineEmits<{
-	(e: 'click-note', id: number | string, isOpen?: Boolean): void;
+	(e: 'click-note', id: string, isOpen?: Boolean): void;
 }>();
 
 const handleClick = () => {

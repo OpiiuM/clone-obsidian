@@ -1,77 +1,28 @@
 import { defineStore } from 'pinia';
 
-import type { Note } from '@/common/types/note';
-import type { Folder } from '@/common/types/folder';
+import type { ISidebarElement } from '@/common/interfaces';
+import { useGenerateId } from '@/common/composables/generateId';
 
 export const useSidebarStore = defineStore('sidebar', {
 	state: () => ({
 		folderExpanded: false,
-		list: [
-			{
-				id: '1',
-				name: 'Example',
-			},
-			{
-				id: '2',
-				name: 'index',
-			},
-			{
-				id: '3',
-				name: 'Алгоритм Дейкстры',
-			},
-			{
-				id: '4',
-				name: 'Вавилонская библиотека',
-			},
-			{
-				id: '5',
-				name: 'Миоклоническая судорога',
-				isActive: true,
-			},
-			{
-				id: '6',
-				name: 'WebDev',
-				collection: [
-					{
-						id: '7',
-						name: 'HTML',
-					},
-					{
-						id: '8',
-						name: 'SCSS',
-					},
-					{
-						id: '9',
-						name: 'JS',
-						collection: [
-							{
-								id: '10',
-								name: 'Vue',
-							},
-							{
-								id: '11',
-								name: 'React',
-							},
-							{
-								id: '12',
-								name: 'Svelte',
-							},
-						],
-					},
-				],
-			},
-		] as Array<Note | Folder | null>,
+		list: [] as Array<ISidebarElement | null>,
 	}),
 	getters: {
 		getFolderExpanded: (state) => state.folderExpanded,
+		getGroups: (state) => state.list.filter((el) => el?.collection),
+		getNoteById: (state) => (id: string) => state.list.find((el) => el?.id === id),
 	},
 	actions: {
-		createNote() {
-			console.log('createNote');
+		createNote(noteData: ISidebarElement) {
+			noteData.id = useGenerateId(this.list);
+			this.list.push(noteData);
 		},
 
-		createFolder() {
-			console.log('createFolder');
+		createFolder(folderData: ISidebarElement) {
+			folderData.id = useGenerateId(this.list);
+			folderData.collection = [];
+			this.list.push(folderData);
 		},
 
 		expandFolders() {

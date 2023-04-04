@@ -1,15 +1,34 @@
 <script lang="ts" setup>
-import { useRouter } from 'vue-router';
-import { useNotesStore } from '@/stores/notes';
+import { watchEffect, computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { useNotesStore, useSidebarStore } from '@/stores';
 
 import ArrowLeftIcon from '@/assets/icons/arrow-left.svg';
 import ArrowRightIcon from '@/assets/icons/arrow-right.svg';
 import CloseIcon from '@/assets/icons/close.svg';
 
 const router = useRouter();
+const route = useRoute();
+
 const notesStore = useNotesStore();
+const sidebarStore = useSidebarStore();
+
+const noteName = computed(() => {
+	return sidebarStore.getNoteById(route.params.id)?.name ?? 'Empty note';
+});
+
+const previousClickHandler = () => {
+	notesStore.toPrevNote();
+	router.push(`/${notesStore.selectIndex}`);
+};
+
+const nextClickHandler = () => {
+	notesStore.toNextNote();
+	router.push(`/${notesStore.selectIndex}`);
+};
 
 const closeCurrentNote = () => {
+	notesStore.$reset();
 	router.push('/');
 };
 </script>
@@ -21,19 +40,21 @@ const closeCurrentNote = () => {
 				<div class="content-panel__actions-item">
 					<arrow-left-icon
 						class="content-panel__actions-icon icon icon--button"
-						@click="notesStore.toPrevNote"
+						:class="{ 'icon--disable': notesStore.isFirstHistoryNote }"
+						@click="previousClickHandler"
 					/>
 				</div>
 				<div class="content-panel__actions-item">
 					<arrow-right-icon
 						class="content-panel__actions-icon icon icon--button"
-						@click="notesStore.toNextNote"
+						:class="{ 'icon--disable': notesStore.isLastHistoryNote }"
+						@click="nextClickHandler"
 					/>
 				</div>
 			</div>
 	
 			<p class="content-panel__name">
-				BASE / Pinia - изменение данных
+				{{ noteName }}
 			</p>
 	
 			<div class="content-panel__actions">

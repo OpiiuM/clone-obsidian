@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
-import { useSidebarStore } from '@/stores/sidebar';
+import { useSidebarStore } from '@/stores';
 
 import SidebarListNode from '@/modules/sidebar/SidebarListNode.vue';
 import FormCreateNote from '@/modules/form/FormCreateNote.vue';
 import FormCreateFolder from '@/modules/form/FormCreateFolder.vue';
+
+import type { ISidebarElement } from '@/common/interfaces';
 
 import ArchiveIcon from '@/assets/icons/archive.svg';
 import FolderIcon from '@/assets/icons/folder.svg';
@@ -22,15 +24,13 @@ const modalAction = (modalType: 'note' | 'folder', status: boolean): void => {
   modals[modalType] = status;
 };
 
-const createNoteHandler = (data: { [attr: string]: string }) => {
-  console.log(data);
-
+const createNoteHandler = (data: ISidebarElement) => {
+  sidebarStore.createNote(data);
   modalAction('note', false);
 };
 
-const createFolderHandler = (data: { [attr: string]: string }) => {
-  console.log(data);
-
+const createFolderHandler = (data: ISidebarElement) => {
+  sidebarStore.createFolder(data);
   modalAction('folder', false);
 };
 </script>
